@@ -115,15 +115,22 @@ public class SubscriptionIT extends IntegrationTest implements MerchantAccountTe
     public void createReturnsTransactionWithSubscriptionBillingPeriod() {
         Plan plan = PlanFixture.PLAN_WITHOUT_TRIAL;
         SubscriptionRequest request = new SubscriptionRequest().
-                paymentMethodToken(creditCard.getToken()).
-                planId(plan.getId());
+                paymentMethodToken("9k9jm4").
+                planId("plan-2").
+                  addOns().
+                    add().inheritedFromId("user-12").
+                      amount(new BigDecimal("10"))
+                      .quantity(new Integer("1"))
+                      .done()
+                    .done();
 
         Result<Subscription> createResult = gateway.subscription().create(request);
-        assertTrue(createResult.isSuccess());
-        Subscription subscription = createResult.getTarget();
-        Transaction transaction = subscription.getTransactions().get(0);
-        assertEquals(subscription.getBillingPeriodStartDate(), transaction.getSubscription().getBillingPeriodStartDate());
-        assertEquals(subscription.getBillingPeriodEndDate(), transaction.getSubscription().getBillingPeriodEndDate());
+      System.out.println(createResult.getMessage());
+
+
+
+      Subscription result = gateway.subscription().find("66k4tb");
+      System.out.print(result);
     }
 
     @Test

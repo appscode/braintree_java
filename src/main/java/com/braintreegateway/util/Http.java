@@ -90,6 +90,7 @@ public class Http {
     }
 
     private NodeWrapper httpRequest(RequestMethod requestMethod, String url, String postBody) {
+        System.out.println("=====" + url);
         HttpURLConnection connection = null;
         NodeWrapper nodeWrapper = null;
 
@@ -110,6 +111,8 @@ public class Http {
                 try {
                     outputStream = connection.getOutputStream();
                     outputStream.write(postBody.getBytes("UTF-8"));
+
+                    System.out.println(postBody);
                 } finally {
                     if (outputStream != null) {
                         outputStream.close();
@@ -131,7 +134,7 @@ public class Http {
                 }
 
                 String xml = StringUtils.inputStreamToString(responseStream);
-
+                System.out.println("--" + xml);
                 logger.log(Level.INFO, "[Braintree] [{0}]] {1} {2}", new Object[] { getCurrentTime(), requestMethod.toString(), url });
                 logger.log(Level.FINE, "[Braintree] [{0}] {1} {2} {3}", new Object[] { getCurrentTime(), requestMethod.toString(), url, connection.getResponseCode() });
 
